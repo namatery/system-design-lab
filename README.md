@@ -15,4 +15,4 @@ designing a system:
 
 | # | Project | Focus | Status |
 |---|---|---|---|
-| 01 | URL Shortener | Short-code generation, redirects, storage, and caching | In progress |
+| 00 | [URL Shortener](./00-url-shortener/) | Short-code generation, redirects, storage, and caching | In progress |
