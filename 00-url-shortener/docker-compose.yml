@@ -1,0 +1,33 @@
+services:
+  scylla:
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'SELECT release_version FROM system.local' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    image: docker.arvancloud.ir/scylladb/scylla:2026.1.13
+    container_name: url-shortener-scylla
+    restart: unless-stopped
+    command:
+      - --smp=1
+      - --memory=1G
+      - --overprovisioned=1
+    ports:
+      - "9042:9042"
+    volumes:
+      - scylla-data:/var/lib/scylla
+
+  scylla-init:
+    image: docker.arvancloud.ir/scylladb/scylla:2026.1.13
+    depends_on:
+      scylla:
+        condition: service_healthy
+    entrypoint: ["cqlsh"]
+    command: ["scylla", "-f", "/migrations/001_create_links.cql"]
+    volumes:
+      - ./migrations:/migrations:ro
+    restart: "no"
+
+volumes:
+  scylla-data:
