@@ -17,7 +17,7 @@ var (
 )
 
 type LinkService interface {
-	Create(c *gin.Context, input CreateUserDto) (string, error)
+	Create(c *gin.Context, input CreateLinkDto) (string, error)
 }
 
 type LinkServiceImpl struct {
@@ -30,7 +30,7 @@ func NewLinkService(session *gocql.Session) LinkService {
 	}
 }
 
-func (s *LinkServiceImpl) Create(c *gin.Context, input CreateUserDto) (string, error) {
+func (s *LinkServiceImpl) Create(c *gin.Context, input CreateLinkDto) (string, error) {
 	// Generate a short alias using the first 6 characters of a UUID
 	alias := gocql.TimeUUID().String()[:6]
 

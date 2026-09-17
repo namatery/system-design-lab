@@ -17,7 +17,7 @@ func NewLinkController(service LinkService) *LinkController {
 }
 
 func (lc *LinkController) CreateShortenLink(c *gin.Context) {
-	var input CreateUserDto
+	var input CreateLinkDto
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
