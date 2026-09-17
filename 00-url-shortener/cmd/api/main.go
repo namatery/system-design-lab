@@ -10,6 +10,8 @@ func main() {
 	// Logger
 	logger := zap.Must(zap.NewProduction())
 	defer logger.Sync()
+	undoLogger := zap.ReplaceGlobals(logger)
+	defer undoLogger()
 
 	// Load configuration
 	cfg, err := config.Load()

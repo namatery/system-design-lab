@@ -23,8 +23,8 @@ services:
     depends_on:
       scylla:
         condition: service_healthy
-    entrypoint: ["cqlsh"]
-    command: ["scylla", "-f", "/migrations/001_create_links.cql"]
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["for migration in /migrations/*.cql; do cqlsh scylla -f \"$$migration\" || exit 1; done"]
     volumes:
       - ./migrations:/migrations:ro
     restart: "no"
