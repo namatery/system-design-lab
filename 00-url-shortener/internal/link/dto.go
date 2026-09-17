@@ -1,6 +1,6 @@
 package link
 
 type CreateUserDto struct {
-	URL        string `json:"URL" binding:"required,url"`
-	Expiration string `json:"Expiration" binding:"required,datetime=2006-01-02"`
+	URL            string `json:"long_url" binding:"required,url"`
+	ExpirationDate string `json:"expiration_date"`
 }

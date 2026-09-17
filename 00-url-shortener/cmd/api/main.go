@@ -25,4 +25,7 @@ func main() {
 	}
 	defer session.Close()
 	logger.Info("Connected to ScyllaDB successfully")
+
+	app := &Application{db: session, addr: cfg.Addr}
+	app.mount()
 }

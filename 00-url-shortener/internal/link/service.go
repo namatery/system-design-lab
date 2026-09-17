@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
+	"github.com/namatery/system-design-lab/00-url-shortener/internal/shared/config"
 	"github.com/namatery/system-design-lab/00-url-shortener/internal/shared/model"
 )
 
@@ -33,7 +34,7 @@ func (s *LinkServiceImpl) Create(c *gin.Context, input CreateUserDto) (string, e
 	// Generate a short alias using the first 6 characters of a UUID
 	alias := gocql.TimeUUID().String()[:6]
 
-	expiresAt, err := time.Parse("2006-01-02", input.Expiration)
+	expiresAt, err := time.Parse("2006-01-02", input.ExpirationDate)
 	if err != nil {
 		return "", fmt.Errorf("invalid expiration date: %w", err)
 	}
@@ -62,7 +63,7 @@ func (s *LinkServiceImpl) Create(c *gin.Context, input CreateUserDto) (string, e
 		return "", ErrAliasExists
 	}
 
-	return "http://short.url/" + link.Alias, nil
+	return config.GetConfig().PublicURL + "/" + link.Alias, nil
 }
 
 var _ LinkService = (*LinkServiceImpl)(nil)

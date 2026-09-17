@@ -1,6 +1,10 @@
 package link
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 type LinkController struct {
 	service LinkService
@@ -19,11 +23,11 @@ func (lc *LinkController) CreateShortenLink(c *gin.Context) {
 		return
 	}
 
-	alias, err := lc.service.Create(c, input)
+	shortUrl, err := lc.service.Create(c, input)
 	if err != nil { // Handle error appropriately
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(201, gin.H{"alias": alias})
+	c.JSON(http.StatusOK, gin.H{"short_url": shortUrl})
 }
